@@ -1,0 +1,102 @@
+<div class="container">
+  <p-toast></p-toast>
+
+  <div class="card-container">
+
+      <p-card
+        [style]="{
+          'margin-top': '-50%',
+          'margin-bottom': '20px'
+        }"
+        styleClass="p-card-shadow"
+      >
+        <h2>Escribe el método a buscar</h2>
+        <form class="search-form">
+          <input
+            [(ngModel)]="nameMethod"
+            name="nameMethod"
+            type="text"
+            pInputText
+            class="search-input"
+            inputmode="numeric"
+            pattern="[0-9]*"
+          />
+          <button
+            (click)="buscarMetodos()"
+            pButton
+            type="button"
+            class="search-button custom-button"
+          >
+            Buscar
+          </button>
+        </form>
+      </p-card>
+
+    <div *ngIf="!showInformation; else cardList" class="card info-container">
+      <p-card
+        [style]="{
+          'margin-top': '40px',
+          'margin-bottom': '20px',
+          'height': '300px'
+        }"
+        styleClass="p-card-shadow"
+      >
+        <div>
+          <h2>Aquí se visualizará la respuesta</h2>
+        </div>
+        <div style="padding: 30px"></div>
+        <img
+          src="assets/lupa.png"
+          width="10%"
+          height="10%"
+          style="display: block; margin: auto"
+        />
+      </p-card>
+    </div>
+
+    <ng-template #cardList>
+      <div class="card info-container">
+        <p-card
+          [style]="{
+            'margin-top': '40px',
+            'margin-bottom': '20px'
+          }"
+          styleClass="p-card-shadow"
+        >
+          <div class="loading-container" *ngIf="loading">
+            <img src="assets/cat.gif" alt="Cute cat waiting">
+            <div class="loading-dot"></div>
+            <div class="loading-dot"></div>
+            <div class="loading-dot"></div>
+            <p>Cargando...</p>
+          </div>
+          <div *ngIf="!loading && !error && escoger">
+            <h2 class="title">Métodos encontrados:</h2>
+            <app-method [method]="methodSearched" (methodClicked)="handleMethodClick($event)"></app-method>
+            <div *ngIf="selectedMethod">
+              Código del método seleccionado: {{selectedMethodCode}}
+            </div>
+            <button class="regresar-button" (click)="goBack()">
+              <span class="button-icon">&larr;</span> Regresar
+            </button>
+          </div>
+
+          <div *ngIf="!loading && !error && !escoger">
+            <h2 class="title">Métodos encontrados:</h2>
+            <div *ngFor="let result of results">
+              <div (click)="handleClick(result)" class="code">
+                <div>{{ result.className }}</div>
+                <code>{{ result.line }}</code>
+              </div>
+            </div>
+
+
+          </div>
+          <div *ngIf="error">
+            <h2>😢 Ha ocurrido un error</h2>
+          </div>
+        </p-card>
+      </div>
+    </ng-template>
+  </div>
+</div>

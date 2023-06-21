@@ -1,0 +1,11 @@
+<div class="method-path" *ngIf="traversedMethods">
+  <div *ngFor="let path of traversedMethods; let pathIndex = index">
+    <span *ngFor="let segment of path.route; let isLast=last; let segmentIndex = index">
+      <span (click)="toggleCodeView(segment.classOrInterface, pathIndex, segmentIndex)">
+        {{ segment.classOrInterface }}
+      </span>
+      <span *ngIf="!isLast"> <- </span>
+      <pre class="code" *ngIf="displayCodeForRoute.get(segment.classOrInterface + '-' + pathIndex + '-' + segmentIndex)">{{ segment.code }}</pre>
+    </span>
+  </div>
+</div>

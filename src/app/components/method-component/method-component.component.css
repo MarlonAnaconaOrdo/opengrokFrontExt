@@ -1,0 +1,42 @@
+.code {
+  background-color: #f6f8fa;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+  padding: 16px;
+  white-space: pre-line;
+  font-family: monospace;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.method-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.method-line {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: larger;  /* Ajusta esto para cambiar el tamaño del texto */
+}
+
+.method-line p {
+  margin: 0 10px; /* Esto añade un pequeño espacio alrededor de cada elemento */
+}
+
+.method-callby {
+  color: red; /* Reemplaza #color1 con el color que desees para callBy */
+}
+
+.method-main {
+  color: red; /* Reemplaza #color2 con el color que desees para el método principal */
+}
+
+.method-callto {
+  color: brown; /* Reemplaza #color3 con el color que desees para callTo */
+}
+
+.arrow {
+  color: blue;
+}
