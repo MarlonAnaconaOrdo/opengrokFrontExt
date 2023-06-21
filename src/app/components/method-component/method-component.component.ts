@@ -35,7 +35,7 @@ export class MethodComponentComponent  implements OnChanges {
 
   ngOnChanges() {
     if (this.method) {
-      let methodCodeMap: {classOrInterface: string, code: string}[] = [{classOrInterface: this.method.classOrInterface, code: this.method.code}];
+      let methodCodeMap: { classOrInterface: string, code: string }[] = [{ classOrInterface: this.method.classOrInterface || this.method.methodName, code: this.method.code }];
       this.traversedMethods = this.traverseMethod(this.method.callBy, methodCodeMap);
       console.log(this.traversedMethods);
     }
