@@ -43,6 +43,11 @@ export class DashboardComponent implements OnInit {
   goBack(){
 this.escoger=false
   }
+
+  goBackError(){
+    this.escoger=false
+    this.error=false
+      }
   //Servicio que busca  los metodos por medio de la  aplicación OpengrokExt
   buscarMetodos(){
     //Muestra el proceso de carga

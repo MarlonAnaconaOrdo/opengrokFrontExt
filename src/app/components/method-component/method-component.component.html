@@ -5,11 +5,12 @@
         {{ segment.classOrInterface }}
       </span>
       <span *ngIf="!isLast"> <- </span>
-      <pre class="code" *ngIf="displayCodeForRoute.get(segment.classOrInterface + '-' + pathIndex + '-' + segmentIndex)">
-        {{ segment.code }}
-        <br>
-        Se encuentra en: {{ segment.path }}
-    </pre>
+      <div *ngIf="displayCodeForRoute.get(segment.classOrInterface + '-' + pathIndex + '-' + segmentIndex)">
+        <p class="path">Se encuentra en: {{ segment.path }}</p>
+        <pre class="code">{{ segment.code }}</pre>
+
+    </div>
+
 
     </span>
   </div>
