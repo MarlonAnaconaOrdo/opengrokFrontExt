@@ -25,8 +25,9 @@ export class MethodComponentComponent  implements OnChanges {
   showCodeOnly: boolean=false;
   selectedMethodForCode: MethodCallpOut | null = null;
   displayCodeForMethod: Map<string, boolean> = new Map();
-  methodCodeMap: {classOrInterface: string; code: string}[]=[]
+  methodCodeMap: {classOrInterface: string; code: string; path: string}[]=[]
   displayCodeForRoute: Map<string, boolean> = new Map();
+  displayPathForRoute: Map<string, boolean> = new Map();
 
   constructor(private services:HttpServicesService) { }
   @Input() selectedMethodCode: string = '';
@@ -35,11 +36,13 @@ export class MethodComponentComponent  implements OnChanges {
 
   ngOnChanges() {
     if (this.method) {
-      let methodCodeMap: { classOrInterface: string, code: string }[] = [{ classOrInterface: this.method.classOrInterface || this.method.methodName, code: this.method.code }];
+      let methodCodeMap: { classOrInterface: string, code: string , path:string}[] = [{ classOrInterface: this.method.classOrInterface || this.method.methodName, code: this.method.code, path:this.method.path }];
       this.traversedMethods = this.traverseMethod(this.method.callBy, methodCodeMap);
       console.log(this.traversedMethods);
     }
   }
+
+
 
   handleClick(method: any) {
     this.methodClicked.emit(method);
@@ -49,29 +52,29 @@ export class MethodComponentComponent  implements OnChanges {
     return method.callBy.length > 0 ;
   }
 
-  traverseMethod(methods: MethodCallpOut[], prefix: {classOrInterface: string, code: string}[] = []): {route: {classOrInterface: string, code: string}[], method: MethodCallpOut}[] {
-    let result: {route: {classOrInterface: string, code: string}[], method: MethodCallpOut}[] = [];
+  traverseMethod(methods: MethodCallpOut[], prefix: {classOrInterface: string, code: string, path: string}[] = []): {route: {classOrInterface: string, code: string, path: string}[], method: MethodCallpOut}[] {
+    let result: {route: {classOrInterface: string, code: string, path: string}[], method: MethodCallpOut}[] = [];
     for (let method of methods) {
-      let route = [...prefix];
-      if (method.classOrInterface !== this.method.classOrInterface) {
-        route.push({classOrInterface: method.classOrInterface, code: method.code});
-      }
-      if (method.callBy.length === 0) {
-        result.push({route: route, method: method});
-      } else {
-        let childResults = this.traverseMethod(method.callBy, route);
-        result.push(...childResults);
-      }
+        let route = [...prefix];
+        if (method.classOrInterface !== this.method.classOrInterface) {
+            route.push({classOrInterface: method.classOrInterface, code: method.code, path: method.path});
+        }
+        if (method.callBy.length === 0) {
+            result.push({route: route, method: method});
+        } else {
+            let childResults = this.traverseMethod(method.callBy, route);
+            result.push(...childResults);
+        }
     }
     return result;
-  }
+}
 
 
   toggleCodeView(route: string, pathIndex: number, segmentIndex: number) {
     const key = `${route}-${pathIndex}-${segmentIndex}`;
     const currentStatus = this.displayCodeForRoute.get(key) || false;
     this.displayCodeForRoute.set(key, !currentStatus);
-  }
+}
 
 
 }
