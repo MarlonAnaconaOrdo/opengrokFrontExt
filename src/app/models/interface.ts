@@ -25,4 +25,11 @@ export interface resultResponse{
   className:string;
 }
 
+  export interface entity{
+    tableEntity:string;
+    schemaEntity:string;
+    idEntity:number;
+    selected?: boolean;
+  }
+
 
