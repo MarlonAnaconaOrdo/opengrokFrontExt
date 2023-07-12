@@ -17,7 +17,9 @@ export class MethodComponentComponent  implements OnChanges {
     methodName:"",
     path:"",
     lineNumber:0,
-    classOrInterface:""
+    classOrInterface:"",
+    idMethod:0,
+    nameProject:""
   };
   @Output() methodClicked = new EventEmitter<MethodCallpOut>();
   selectedMethodResult: {path: string, result: string} = {path: '', result: ''};
@@ -36,7 +38,7 @@ export class MethodComponentComponent  implements OnChanges {
 
   ngOnChanges() {
     if (this.method) {
-      let methodCodeMap: { classOrInterface: string, code: string , path:string}[] = [{ classOrInterface: this.method.classOrInterface || this.method.methodName, code: this.method.code, path:this.method.path }];
+      let methodCodeMap: { classOrInterface: string, code: string , path:string,methodName:string}[] = [{ classOrInterface: this.method.classOrInterface || this.method.methodName, code: this.method.code, path:this.method.path ,methodName:this.method.methodName}];
       this.traversedMethods = this.traverseMethod(this.method.callBy, methodCodeMap);
       console.log(this.traversedMethods);
     }
@@ -52,12 +54,12 @@ export class MethodComponentComponent  implements OnChanges {
     return method.callBy.length > 0 ;
   }
 
-  traverseMethod(methods: MethodCallpOut[], prefix: {classOrInterface: string, code: string, path: string}[] = []): {route: {classOrInterface: string, code: string, path: string}[], method: MethodCallpOut}[] {
-    let result: {route: {classOrInterface: string, code: string, path: string}[], method: MethodCallpOut}[] = [];
+  traverseMethod(methods: MethodCallpOut[], prefix: {classOrInterface: string, code: string, path: string,methodName:string}[] = []): {route: {classOrInterface: string, code: string, path: string,methodName:string}[], method: MethodCallpOut}[] {
+    let result: {route: {classOrInterface: string, code: string, path: string,methodName:string}[], method: MethodCallpOut}[] = [];
     for (let method of methods) {
         let route = [...prefix];
         if (method.classOrInterface !== this.method.classOrInterface) {
-            route.push({classOrInterface: method.classOrInterface, code: method.code, path: method.path});
+          route.push({classOrInterface: method.classOrInterface, code: method.code, path: method.path, methodName: method.methodName});
         }
         if (method.callBy.length === 0) {
             result.push({route: route, method: method});
@@ -76,5 +78,9 @@ export class MethodComponentComponent  implements OnChanges {
     this.displayCodeForRoute.set(key, !currentStatus);
 }
 
+
+isHighlighted(line: string, methodName: string): boolean {
+  return line.includes(methodName);
+}
 
 }

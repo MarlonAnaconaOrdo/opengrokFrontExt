@@ -13,6 +13,8 @@ export interface MethodCallpOut{
   callBy: MethodCallpOut[];
   callTo: MethodCallpOut[] | null;
   classOrInterface: string;
+  nameProject: String;
+  idMethod: number;
 }
 
 

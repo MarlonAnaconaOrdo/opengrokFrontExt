@@ -7,11 +7,14 @@
       <span *ngIf="!isLast"> <- </span>
       <div *ngIf="displayCodeForRoute.get(segment.classOrInterface + '-' + pathIndex + '-' + segmentIndex)">
         <p class="path">Se encuentra en: {{ segment.path }}</p>
-        <pre class="code">{{ segment.code }}</pre>
+        <pre class="code">
+          <code *ngFor="let line of segment.code.split('\n'); let lineNumber = index"
+                [ngClass]="{'highlight': isHighlighted(line, segment.methodName)}">
 
-    </div>
-
-
+                {{ line }}
+          </code>
+        </pre>
+      </div>
     </span>
   </div>
 </div>
