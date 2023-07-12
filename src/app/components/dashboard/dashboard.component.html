@@ -10,6 +10,14 @@
       }"
       styleClass="p-card-shadow"
     >
+    <div class="radio-button-container ">
+      <p>Selecciona un proyecto:</p>
+      <div *ngFor="let project of projects">
+        <input type="radio" id="{{project.idproject}}" name="project" [(ngModel)]="selectedProject" [value]="project" (change)="printSelectedProject()">
+        <label for="{{project}}">{{project.name}}</label>
+      </div>
+    </div>
+
       <h2>Escribe el método a buscar</h2>
       <form class="search-form">
         <input
@@ -22,6 +30,7 @@
           pattern="[0-9]*"
         />
         <button
+        [disabled]="!selectedProject"
           (click)="buscarMetodos()"
           pButton
           type="button"
@@ -38,8 +47,10 @@
           Tablas
         </button>
       </form>
+
+
     </p-card>
-  
+
     <div *ngIf="!showInformation && !showTables; else showTables ? cardTables : cardList" class="card info-container">
       <p-card
         [style]="{
@@ -61,7 +72,7 @@
         />
       </p-card>
     </div>
-  
+
     <ng-template #cardTables>
       <div class="card info-container">
           <p-card
@@ -77,9 +88,9 @@
               <div class="entity-grid">
                 <div *ngFor="let entity of entities" class="entity-container">
                   <div class="entity-info">
-                    <p-checkbox 
-                        [(ngModel)]="entity.selected" 
-                        [binary]="true" 
+                    <p-checkbox
+                        [(ngModel)]="entity.selected"
+                        [binary]="true"
                         (onChange)="onCheckboxChange(entity)"
                     >
                     </p-checkbox>
@@ -104,8 +115,8 @@
           </div>
       </div>
   </ng-template>
-  
-  
+
+
     <ng-template #cardList>
       <div class="card info-container">
         <p-card
@@ -132,7 +143,7 @@
               <span class="button-icon">&larr;</span> Regresar
             </button>
           </div>
-  
+
           <div *ngIf="!loading && !error && !escoger">
             <h2 class="title">Métodos encontrados:</h2>
             <div *ngFor="let result of results">
@@ -141,8 +152,8 @@
                 <code>{{ result.line }}</code>
               </div>
             </div>
-  
-  
+
+
           </div>
           <div *ngIf="error">
             <h2>😢 Ha ocurrido un error</h2>
@@ -150,10 +161,10 @@
               <span class="button-icon">&larr;</span> Regresar
             </button>
           </div>
-  
+
         </p-card>
       </div>
     </ng-template>
   </div>
-  
+
 </div>

@@ -33,3 +33,10 @@ export interface resultResponse{
   }
 
 
+export interface project{
+  idproject:number;
+  path:string;
+  name:string;
+}
+
+

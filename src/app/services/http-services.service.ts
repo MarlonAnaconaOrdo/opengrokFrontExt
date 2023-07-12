@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environment/environment';
-import { MethodCallpOut, resultResponse, results ,entity} from '../models/interface';
+import { MethodCallpOut, resultResponse, results ,entity, project} from '../models/interface';
 
 @Injectable({
   providedIn: 'root'
@@ -25,9 +25,15 @@ export class HttpServicesService {
     return this.httpClient.post<MethodCallpOut>(this.baseUrl+'callHierarchy',data)
   }
 
-  getTablesByProyect(idProyect:number): Observable<entity[]>{  
+  getTablesByProyect(idProyect:number): Observable<entity[]>{
     return this.httpClient.get<entity[]>(this.baseUrl+'getTables/'+idProyect)
   }
+
+  getProjects(): Observable<project[]>{
+    return this.httpClient.get<project[]>(this.baseUrl+'getProjects/')
+  }
+
+
 
 
 }

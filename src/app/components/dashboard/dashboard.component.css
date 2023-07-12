@@ -168,3 +168,13 @@
 .button-icon {
   margin-right: 5px;
 }
+
+.radio-button-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.radio-button-container input[type="radio"] {
+  margin-right: 10px;
+}
