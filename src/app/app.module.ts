@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CardModule } from 'primeng/card';
 import { MethodComponentComponent } from './components/method-component/method-component.component';
 import { StoreModule } from '@ngrx/store';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ OAuthModule.forRoot(),
 HttpClientModule,
 BrowserAnimationsModule,
 CardModule,
-
+CheckboxModule
 ],
   providers: [MessageService],
   bootstrap: [AppComponent]

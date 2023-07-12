@@ -3,36 +3,44 @@
 
   <div class="card-container">
 
-      <p-card
-        [style]="{
-          'margin-top': '-50%',
-          'margin-bottom': '20px'
-        }"
-        styleClass="p-card-shadow"
-      >
-        <h2>Escribe el método a buscar</h2>
-        <form class="search-form">
-          <input
-            [(ngModel)]="nameMethod"
-            name="nameMethod"
-            type="text"
-            pInputText
-            class="search-input"
-            inputmode="numeric"
-            pattern="[0-9]*"
-          />
-          <button
-            (click)="buscarMetodos()"
-            pButton
-            type="button"
-            class="search-button custom-button"
-          >
-            Buscar
-          </button>
-        </form>
-      </p-card>
-
-    <div *ngIf="!showInformation; else cardList" class="card info-container">
+    <p-card
+      [style]="{
+        'margin-top': '-50%',
+        'margin-bottom': '20px'
+      }"
+      styleClass="p-card-shadow"
+    >
+      <h2>Escribe el método a buscar</h2>
+      <form class="search-form">
+        <input
+          [(ngModel)]="nameMethod"
+          name="nameMethod"
+          type="text"
+          pInputText
+          class="search-input"
+          inputmode="numeric"
+          pattern="[0-9]*"
+        />
+        <button
+          (click)="buscarMetodos()"
+          pButton
+          type="button"
+          class="search-button custom-button"
+        >
+          Buscar
+        </button>
+        <button
+          (click)="findTables()"
+          pButton
+          type="button"
+          class="search-button custom-button"
+        >
+          Tablas
+        </button>
+      </form>
+    </p-card>
+  
+    <div *ngIf="!showInformation && !showTables; else showTables ? cardTables : cardList" class="card info-container">
       <p-card
         [style]="{
           'margin-top': '40px',
@@ -53,7 +61,51 @@
         />
       </p-card>
     </div>
-
+  
+    <ng-template #cardTables>
+      <div class="card info-container">
+          <p-card
+              [style]="{
+              'margin-top': '40px',
+              'margin-bottom': '20px',
+              'height': '300px',
+              'width': '800px'
+              }"
+              styleClass="p-card-shadow"
+          >
+              <h2 class="title">Tablas disponibles:</h2>
+              <div class="entity-grid">
+                <div *ngFor="let entity of entities" class="entity-container">
+                  <div class="entity-info">
+                    <p-checkbox 
+                        [(ngModel)]="entity.selected" 
+                        [binary]="true" 
+                        (onChange)="onCheckboxChange(entity)"
+                    >
+                    </p-checkbox>
+                    <div>
+                      <div>Esquema: {{entity.schemaEntity}}</div>
+                      <div>Tabla: {{entity.tableEntity}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </p-card>
+          <div class="button-container">
+            <button
+              pButton
+              type="button"
+              class="search-button custom-button"
+              [disabled]="!selectedEntity"
+              (click)="buscar()"
+            >
+              Buscar
+            </button>
+          </div>
+      </div>
+  </ng-template>
+  
+  
     <ng-template #cardList>
       <div class="card info-container">
         <p-card
@@ -80,7 +132,7 @@
               <span class="button-icon">&larr;</span> Regresar
             </button>
           </div>
-
+  
           <div *ngIf="!loading && !error && !escoger">
             <h2 class="title">Métodos encontrados:</h2>
             <div *ngFor="let result of results">
@@ -89,8 +141,8 @@
                 <code>{{ result.line }}</code>
               </div>
             </div>
-
-
+  
+  
           </div>
           <div *ngIf="error">
             <h2>😢 Ha ocurrido un error</h2>
@@ -98,9 +150,10 @@
               <span class="button-icon">&larr;</span> Regresar
             </button>
           </div>
-
+  
         </p-card>
       </div>
     </ng-template>
   </div>
+  
 </div>

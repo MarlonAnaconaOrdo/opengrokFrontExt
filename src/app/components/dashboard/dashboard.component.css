@@ -5,6 +5,30 @@
   height: 100vh;  /* Asegura que el contenedor principal tome toda la altura de la pantalla */
   justify-content: center;
 }
+.entity-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+
+.entity-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.entity-info div {
+  display: flex;
+  flex-direction: column;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+
 
 .card-container {
   display: flex;
