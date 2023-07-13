@@ -75,70 +75,43 @@
 
     <ng-template #cardTables>
       <div class="card info-container">
-          <p-card
-              [style]="{
-              'margin-top': '40px',
-              'margin-bottom': '20px',
-              'height': '300px',
-              'width': '800px'
-              }"
-              styleClass="p-card-shadow"
-          >
-          <div *ngIf="!methodTables && !error&& !loading">
-              <h2 class="title">Tablas disponibles:</h2>
-              <div class="entity-grid">
-                <div *ngFor="let entity of entities" class="entity-container">
-                  <div class="entity-info">
-                    <p-checkbox
-                        [(ngModel)]="entity.selected"
-                        [binary]="true"
-                        (onChange)="onCheckboxChange(entity)"
-                    >
-                    </p-checkbox>
-                    <div>
-                      <div>Esquema: {{entity.schemaEntity}}</div>
-                      <div>Tabla: {{entity.tableEntity}}</div>
-                    </div>
+          <p-card [style]="{'margin-top': '40px','margin-bottom': '20px','height': '350px','width': '800px'}" styleClass="p-card-shadow">
+              <div *ngIf="!methodTables && !error&& !loading">
+                  <h2 class="title">Tablas disponibles:</h2>
+                  <div style="height: 200px; overflow: auto;">
+                      <div class="entity-grid">
+                          <div *ngFor="let entity of entities" class="entity-container">
+                              <div class="entity-info">
+                                  <p-checkbox [(ngModel)]="entity.selected" [binary]="true" (onChange)="onCheckboxChange(entity)"></p-checkbox>
+                                  <div>
+                                      <div>Esquema: {{entity.schemaEntity}}</div>
+                                      <div>Tabla: {{entity.tableEntity}}</div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
                   </div>
-                </div>
               </div>
-            </div>
-             <div *ngIf="methodTables &&!error">
-              <app-method
-              [method]="routesByTable"
-              (methodClicked)="handleMethodClick($event)"
-            ></app-method>
-          </div>
-
-          <div class="loading-container" *ngIf="loading">
-            <img src="assets/cat.gif" alt="Cute cat waiting">
-            <div class="loading-dot"></div>
-            <div class="loading-dot"></div>
-            <div class="loading-dot"></div>
-            <p>Cargando...</p>
-          </div>
-
-            <div *ngIf="error">
-              <h2>😢 Ha ocurrido un error</h2>
-              <button class="regresar-button" (click)="goBackError()">
-                <span class="button-icon">&larr;</span> Regresar
-              </button>
-            </div>
-
-
+              <div *ngIf="methodTables && !error">
+                  <app-method [method]="routesByTable" (methodClicked)="handleMethodClick($event)"></app-method>
+              </div>
+              <div class="loading-container" *ngIf="loading">
+                  <img src="assets/cat.gif" alt="Cute cat waiting">
+                  <div class="loading-dot"></div>
+                  <div class="loading-dot"></div>
+                  <div class="loading-dot"></div>
+                  <p>Cargando...</p>
+              </div>
+              <div *ngIf="error">
+                  <h2>😢 Ha ocurrido un error</h2>
+                  <button class="regresar-button" (click)="goBackError()">
+                      <span class="button-icon">&larr;</span> Regresar
+                  </button>
+              </div>
           </p-card>
           <div class="button-container">
-            <button
-              pButton
-              type="button"
-              class="search-button custom-button"
-              [disabled]="!selectedEntity"
-              (click)="findMethodsByTable()"
-            >
-              Buscar
-            </button>
+              <button pButton type="button" class="search-button custom-button" [disabled]="!selectedEntity" (click)="findMethodsByTable()">Buscar</button>
           </div>
-
       </div>
   </ng-template>
 
