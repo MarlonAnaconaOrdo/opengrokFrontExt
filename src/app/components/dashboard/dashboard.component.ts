@@ -21,9 +21,35 @@ export class DashboardComponent implements OnInit {
   data: any;
   showTables = false;
   selectedEntity: entity | null = null;
-  entities: entity[] = [];
-  routesByTable: MethodCallpOut[] = [];
+  //entities: entity[] = [];
 
+  entities = [
+    {
+      tableEntity: 'Table1',
+      schemaEntity: 'Schema1',
+      idEntity: 1,
+      selected: false
+    },
+    {
+      tableEntity: 'Table2',
+      schemaEntity: 'Schema2',
+      idEntity: 2,
+      selected: false
+    },
+    {
+      tableEntity: 'Table3',
+      schemaEntity: 'Schema3',
+      idEntity: 3,
+      selected: false
+    },
+    {
+      tableEntity: 'Table4',
+      schemaEntity: 'Schema4',
+      idEntity: 4,
+      selected: false
+    },
+    // ... más entidades
+  ];
 
   results: any;
 
@@ -71,18 +97,8 @@ this.escoger=false
 
 
   findTables() {
-    if (this.selectedProject !== null) {
-      const idProyect = this.selectedProject.idproject;
-      this.showTables = true;
-      this.showInformation = false;
-     this.services.getTablesByProyect(idProyect).subscribe(
-      response=>{
-        this.entities=response;
-      }, error=>{
-        this.error =true
-      }
-    )
-    }
+    this.showTables = true;
+    this.showInformation = false;
   }
 
   onCheckboxChange(selectedEntity: entity) {
@@ -100,22 +116,10 @@ this.escoger=false
 }
 
 
-  findMethodsByTable() {
-    if (this.selectedProject !== null) {
-      const idProyect = this.selectedProject.idproject;
-      if (this.selectedEntity !== null) {
-        const idEntity = this.selectedEntity.idEntity;
-        this.services.getRoutesMethodsByTable(idProyect,idEntity).subscribe(
-          response=>{
-            this.routesByTable=response;
-          }, error=>{
-            this.error =true
-          }
-        )
-      }
-    }
+  buscar() {
+    console.log('Buscar la entidad: ', this.selectedEntity);
+    // Aquí va la lógica de buscar la entidad seleccionada...
   }
-
   goBackError(){
     this.escoger=false
     this.error=false
@@ -137,7 +141,16 @@ this.escoger=false
       }
     )
   }
-
+  /*
+  findTables(){
+    this.services.getTablesByProyect(1).subscribe(
+      response=>{
+        this.entities=response;
+      }, error=>{
+        this.error =true
+      }
+    )
+  }*/
 
   getMetodo(){
 //Hace llamado de metodos con rutas
@@ -151,7 +164,7 @@ this.escoger=false
       next: (response) => {
         console.log(response);
        // this.methodSearched = response;  // Aquí cambio `this.data` a `this.methodSearched`.
-        this.methodSearched = response
+        this.methodSearched =[ response  ]
           // Aquí cambio `this.data` a `this.methodSearched`.
         this.escoger = true;
         this.loading = false;
@@ -162,6 +175,24 @@ this.escoger=false
         this.error = true;
       },
     });
+
+
+    // this.services.getMethodByProject(this.selectedProject.idproject).subscribe({
+    //   next: (response) => {
+    //     console.log(response);
+    //    // this.methodSearched = response;  // Aquí cambio `this.data` a `this.methodSearched`.
+    //     this.methodSearched = response
+    //       // Aquí cambio `this.data` a `this.methodSearched`.
+    //     this.escoger = true;
+    //     this.loading = false;
+    //     this.error = false;
+    //   },
+    //   error: (err) => {
+    //     this.loading = false;
+    //     this.error = true;
+    //   },
+    // });
+
 
   }
 
@@ -180,5 +211,7 @@ this.escoger=false
       });
     }
   }
+
+  findMethodsByTable(){}
 
 }

@@ -10,7 +10,7 @@ import { HttpServicesService } from 'src/app/services/http-services.service';
 })
 export class MethodComponentComponent  implements OnChanges {
 
-  @Input() method: MethodCallpOut={
+  @Input() method1: MethodCallpOut={
     code:"",
     callBy:[],
     callTo:[],
@@ -21,6 +21,9 @@ export class MethodComponentComponent  implements OnChanges {
     idMethod:0,
     nameProject:""
   };
+
+  @Input() method: MethodCallpOut[] = [];
+
   @Output() methodClicked = new EventEmitter<MethodCallpOut>();
   selectedMethodResult: {path: string, result: string} = {path: '', result: ''};
   showCode: boolean[] = [];
@@ -38,8 +41,7 @@ export class MethodComponentComponent  implements OnChanges {
 
   ngOnChanges() {
     if (this.method) {
-      let methodCodeMap: { classOrInterface: string, code: string , path:string,methodName:string}[] = [{ classOrInterface: this.method.classOrInterface || this.method.methodName, code: this.method.code, path:this.method.path ,methodName:this.method.methodName}];
-      this.traversedMethods = this.traverseMethod(this.method.callBy, methodCodeMap);
+      this.traversedMethods = this.traverseMethod(this.method);
       console.log(this.traversedMethods);
     }
   }
@@ -53,23 +55,22 @@ export class MethodComponentComponent  implements OnChanges {
   hasAnyCalls(method: MethodCallpOut): boolean {
     return method.callBy.length > 0 ;
   }
-
-  traverseMethod(methods: MethodCallpOut[], prefix: {classOrInterface: string, code: string, path: string,methodName:string}[] = []): {route: {classOrInterface: string, code: string, path: string,methodName:string}[], method: MethodCallpOut}[] {
-    let result: {route: {classOrInterface: string, code: string, path: string,methodName:string}[], method: MethodCallpOut}[] = [];
+  traverseMethod(methods: MethodCallpOut[], prefix: { classOrInterface: string, code: string, path: string, methodName: string }[] = []): { route: { classOrInterface: string, code: string, path: string, methodName: string }[], method: MethodCallpOut }[] {
+    let result: { route: { classOrInterface: string, code: string, path: string, methodName: string }[], method: MethodCallpOut }[] = [];
     for (let method of methods) {
-        let route = [...prefix];
-        if (method.classOrInterface !== this.method.classOrInterface) {
-          route.push({classOrInterface: method.classOrInterface, code: method.code, path: method.path, methodName: method.methodName});
-        }
-        if (method.callBy.length === 0) {
-            result.push({route: route, method: method});
-        } else {
-            let childResults = this.traverseMethod(method.callBy, route);
-            result.push(...childResults);
-        }
+      let route = [...prefix];
+      if (method.classOrInterface !== this.method[0].classOrInterface) {
+        route.push({ classOrInterface: method.classOrInterface, code: method.code, path: method.path, methodName: method.methodName });
+      }
+      if (method.callBy.length === 0) {
+        result.push({ route: route, method: method });
+      } else {
+        let childResults = this.traverseMethod(method.callBy, route);
+        result.push(...childResults);
+      }
     }
     return result;
-}
+  }
 
 
   toggleCodeView(route: string, pathIndex: number, segmentIndex: number) {

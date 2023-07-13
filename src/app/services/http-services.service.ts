@@ -19,9 +19,7 @@ export class HttpServicesService {
     return this.httpClient.get<resultResponse>(this.baseUrl+'findMethods/'+method)
   }
 
-  getRoutesMethodsByTable(idEntity:number,idProyect:number): Observable<MethodCallpOut[]>{
-    return this.httpClient.get<MethodCallpOut[]>(this.baseUrl+'getMethodsByTable/'+idProyect+"/"+idEntity)
-  }
+
 
   CallHierrarchy(data:resultResponse): Observable<MethodCallpOut>{
     return this.httpClient.post<MethodCallpOut>(this.baseUrl+'callHierarchy',data)
@@ -38,9 +36,16 @@ export class HttpServicesService {
   //Retorna el metodo segun el proyecto
   getMethodByProject(idproject:number): Observable<MethodCallpOut>
 {
-  return this.httpClient.post<MethodCallpOut>(this.baseUrl+'aCambiar',idproject)
+  return this.httpClient.get<MethodCallpOut>(this.baseUrl+'aCambiar')
 
 }
+
+getMethodById(idmethod:number): Observable<MethodCallpOut>
+{
+  return this.httpClient.get<MethodCallpOut>(this.baseUrl+'/getMethodById/'+idmethod)
+
+}
+
 
 
 }
