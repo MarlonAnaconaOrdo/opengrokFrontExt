@@ -81,7 +81,6 @@ this.escoger=false
       this.showTables = true;
      this.services.getTablesByProyect(idProyect).subscribe(
       response=>{
-
         this.methodTables=false;
         this.loading=false
         this.error =false
