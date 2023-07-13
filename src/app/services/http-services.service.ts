@@ -33,7 +33,12 @@ export class HttpServicesService {
     return this.httpClient.get<project[]>(this.baseUrl+'getProjects/')
   }
 
+  //Retorna el metodo segun el proyecto
+  getMethodByProject(idproject:number): Observable<MethodCallpOut>
+{
+  return this.httpClient.post<MethodCallpOut>(this.baseUrl+'aCambiar',idproject)
 
+}
 
 
 }
