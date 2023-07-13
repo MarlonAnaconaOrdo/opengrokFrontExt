@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url: 'http://localhost:8081/',
+  url: 'http://localhost:8080/',
   urlOpengrok: 'http://localhost:8081/',
   GOOGLE_ISSUER: 'https://accounts.google.com',
   GOOGLE_CLIENT_ID: '583418035211-987auqe6955osss77ploma3btbhsutrr.apps.googleusercontent.com',

@@ -25,6 +25,15 @@ export class HttpServicesService {
   }
 
 
+  generateTree(){
+
+    return this.httpClient.get<resultResponse>(this.baseUrl+'generateTree')
+  }
+
+
+  indexar(idProject:number){
+    return this.httpClient.get<resultResponse>(this.baseUrl+'index/'+idProject)
+  }
 
   CallHierrarchy(data:resultResponse): Observable<MethodCallpOut>{
     return this.httpClient.post<MethodCallpOut>(this.baseUrl+'callHierarchy',data)

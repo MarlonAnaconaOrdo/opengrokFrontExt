@@ -46,6 +46,15 @@
         >
           Tablas
         </button>
+        <button
+        [disabled]="!index"
+          (click)="indexar()"
+          pButton
+          type="button"
+          class="search-button custom-button"
+        >
+          Indexar
+        </button>
       </form>
 
 

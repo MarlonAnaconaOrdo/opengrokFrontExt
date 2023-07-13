@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
   selectedEntity: entity | null = null;
   entities: entity[] = [];
   routesByTable: any[] = [];
-
+  index=true;
 
 
   results: any;
@@ -106,18 +106,15 @@ this.escoger=false
       if (this.selectedEntity !== null) {
         const idEntity = this.selectedEntity.idEntity;
 
-        console.log(idProyect)
-        console.log(idEntity)
-        this.services.getRoutesMethodsByTable(idProyect,idEntity).subscribe(
+
+        this.services.getRoutesMethodsByTable(idEntity,idProyect).subscribe(
           response=>{
             this.routesByTable=response
             this.loading=false;
             this.error=false
             this.methodTables=true;
-            console.log(response)
             //this.routesByTable=response
           }, error=>{
-            console.log(error)
             this.methodTables=false;
             this.loading=false
             this.error =true
@@ -127,6 +124,26 @@ this.escoger=false
     }
   }
 
+  indexar(){
+    this.services.indexar(this.selectedProject.idProject).subscribe(
+      response=>{
+
+        this.services.generateTree().subscribe(
+          response=>{
+            this.messageService.add({ severity: 'success', summary: 'Indexación completa', detail: 'Se completo el proceso' });
+            this.index=false;
+          },error=>{
+            this.messageService.add({ severity: 'error', summary: 'Indexación incompleta', detail: 'No se completó el proceso' });
+
+            this.index=false;
+          }
+        )
+      },error=>{
+        this.messageService.add({ severity: 'error', summary: 'Indexación incompleta', detail: 'No se completó el proceso' });
+        this.index=true;
+      }
+    )
+  }
   onCheckboxChange(selectedEntity: entity) {
     // Desmarcar todas las entidades excepto la seleccionada
     this.entities = this.entities.map(entity => {
