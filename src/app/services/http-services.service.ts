@@ -14,6 +14,11 @@ export class HttpServicesService {
   constructor(private httpClient:HttpClient) { }
 
 
+  getRoutesMethodsByTable(idEntity:number,idProyect:number): Observable<MethodCallpOut[]>{
+    return this.httpClient.get<MethodCallpOut[]>(this.baseUrl+'getMethodsByTable/'+idProyect+"/"+idEntity)
+  }
+
+
   getMethodByName(method:string): Observable<resultResponse>{
 
     return this.httpClient.get<resultResponse>(this.baseUrl+'findMethods/'+method)
@@ -42,7 +47,7 @@ export class HttpServicesService {
 
 getMethodById(idmethod:number): Observable<MethodCallpOut>
 {
-  return this.httpClient.get<MethodCallpOut>(this.baseUrl+'/getMethodById/'+idmethod)
+  return this.httpClient.get<MethodCallpOut>(this.baseUrl+'getMethodById/'+idmethod)
 
 }
 

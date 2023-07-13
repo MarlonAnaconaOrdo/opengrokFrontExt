@@ -84,6 +84,7 @@
               }"
               styleClass="p-card-shadow"
           >
+          <div *ngIf="!methodTables && !error&& !loading">
               <h2 class="title">Tablas disponibles:</h2>
               <div class="entity-grid">
                 <div *ngFor="let entity of entities" class="entity-container">
@@ -101,6 +102,30 @@
                   </div>
                 </div>
               </div>
+            </div>
+             <div *ngIf="methodTables &&!error">
+              <app-method
+              [method]="routesByTable"
+              (methodClicked)="handleMethodClick($event)"
+            ></app-method>
+          </div>
+
+          <div class="loading-container" *ngIf="loading">
+            <img src="assets/cat.gif" alt="Cute cat waiting">
+            <div class="loading-dot"></div>
+            <div class="loading-dot"></div>
+            <div class="loading-dot"></div>
+            <p>Cargando...</p>
+          </div>
+
+            <div *ngIf="error">
+              <h2>😢 Ha ocurrido un error</h2>
+              <button class="regresar-button" (click)="goBackError()">
+                <span class="button-icon">&larr;</span> Regresar
+              </button>
+            </div>
+
+
           </p-card>
           <div class="button-container">
             <button
@@ -113,6 +138,7 @@
               Buscar
             </button>
           </div>
+
       </div>
   </ng-template>
 

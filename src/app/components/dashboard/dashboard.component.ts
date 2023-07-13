@@ -21,35 +21,10 @@ export class DashboardComponent implements OnInit {
   data: any;
   showTables = false;
   selectedEntity: entity | null = null;
-  //entities: entity[] = [];
+  entities: entity[] = [];
+  routesByTable: any[] = [];
 
-  entities = [
-    {
-      tableEntity: 'Table1',
-      schemaEntity: 'Schema1',
-      idEntity: 1,
-      selected: false
-    },
-    {
-      tableEntity: 'Table2',
-      schemaEntity: 'Schema2',
-      idEntity: 2,
-      selected: false
-    },
-    {
-      tableEntity: 'Table3',
-      schemaEntity: 'Schema3',
-      idEntity: 3,
-      selected: false
-    },
-    {
-      tableEntity: 'Table4',
-      schemaEntity: 'Schema4',
-      idEntity: 4,
-      selected: false
-    },
-    // ... más entidades
-  ];
+
 
   results: any;
 
@@ -60,7 +35,7 @@ export class DashboardComponent implements OnInit {
   selectedValue: string = '';
   projects:any;
   selectedProject: any;
-
+  methodTables=false;
   constructor(private services:HttpServicesService,private messageService: MessageService) {
 
   }
@@ -82,6 +57,7 @@ export class DashboardComponent implements OnInit {
       console.log(error)
     })
   }
+
   setValue(value: string) {
     this.selectedValue = value;
   }
@@ -97,8 +73,55 @@ this.escoger=false
 
 
   findTables() {
-    this.showTables = true;
-    this.showInformation = false;
+    this.loading=true;
+    this.error=false;
+    this.methodTables=false;
+    if (this.selectedProject !== null) {
+      const idProyect = this.selectedProject.idProject;
+      this.showTables = true;
+     this.services.getTablesByProyect(idProyect).subscribe(
+      response=>{
+
+        this.methodTables=false;
+        this.loading=false
+        this.error =false
+      this.entities=response
+      }, error=>{
+        this.methodTables=false;
+        this.loading=false
+        this.error =true
+            }
+    )
+    }
+  }
+
+
+  findMethodsByTable() {
+//limpia la ruta
+    this.routesByTable=[]
+    this.methodTables=false;
+    this.error=false;
+    this.loading=true;
+    if (this.selectedProject !== null) {
+      const idProyect = this.selectedProject.idProject;
+      if (this.selectedEntity !== null) {
+        const idEntity = this.selectedEntity.idEntity;
+
+        this.services.getRoutesMethodsByTable(idProyect,idEntity).subscribe(
+          response=>{
+            this.routesByTable=response
+            this.loading=false;
+            this.error=false
+            this.methodTables=true;
+            //this.routesByTable=response
+          }, error=>{
+            this.methodTables=false;
+            this.loading=false
+            this.error =true
+          }
+        )
+      }
+    }
   }
 
   onCheckboxChange(selectedEntity: entity) {
@@ -119,6 +142,8 @@ this.escoger=false
   buscar() {
     console.log('Buscar la entidad: ', this.selectedEntity);
     // Aquí va la lógica de buscar la entidad seleccionada...
+
+
   }
   goBackError(){
     this.escoger=false
@@ -128,6 +153,7 @@ this.escoger=false
   buscarMetodos(){
     this.showTables=false;
     this.showInformation=true;
+    this.methodTables=false
     this.services.getMethodByName(this.nameMethod).subscribe(
       response=>{
         //Aqui aparecera el listado a escoger
@@ -141,6 +167,8 @@ this.escoger=false
       }
     )
   }
+
+
   /*
   findTables(){
     this.services.getTablesByProyect(1).subscribe(
@@ -177,21 +205,7 @@ this.escoger=false
     });
 
 
-    // this.services.getMethodByProject(this.selectedProject.idproject).subscribe({
-    //   next: (response) => {
-    //     console.log(response);
-    //    // this.methodSearched = response;  // Aquí cambio `this.data` a `this.methodSearched`.
-    //     this.methodSearched = response
-    //       // Aquí cambio `this.data` a `this.methodSearched`.
-    //     this.escoger = true;
-    //     this.loading = false;
-    //     this.error = false;
-    //   },
-    //   error: (err) => {
-    //     this.loading = false;
-    //     this.error = true;
-    //   },
-    // });
+
 
 
   }
@@ -212,6 +226,5 @@ this.escoger=false
     }
   }
 
-  findMethodsByTable(){}
 
 }
