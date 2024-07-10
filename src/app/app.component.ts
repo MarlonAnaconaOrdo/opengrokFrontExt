@@ -8,6 +8,6 @@ import { AuthService } from './services/auth.service';
 })
 export class AppComponent {
   title = 'opengrokExtFront';
-  constructor(private readonly auth:AuthService){}
+  constructor(){}
 
 }
